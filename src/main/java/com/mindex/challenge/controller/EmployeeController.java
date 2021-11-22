@@ -2,6 +2,9 @@ package com.mindex.challenge.controller;
 
 import com.mindex.challenge.data.Employee;
 import com.mindex.challenge.service.EmployeeService;
+
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +16,11 @@ public class EmployeeController {
 
     @Autowired
     private EmployeeService employeeService;
+    
+    @GetMapping("/employee")
+    public List<Employee> getEmployee() {
+    	return employeeService.getEmp();
+    }
 
     @PostMapping("/employee")
     public Employee create(@RequestBody Employee employee) {

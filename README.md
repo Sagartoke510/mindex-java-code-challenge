@@ -79,7 +79,7 @@ not be persisted.
 
 ### Task 2
 Create a new type, Compensation. A Compensation has the following fields: employee, salary, and effectiveDate. Create 
-two new Compensation REST endpoints. One to create and one to read by employeeId. These should persist and query the 
+two new Compensation REST endpoints. One to create and to read by employeeId. These should persist and query the 
 Compensation from the persistence layer.
 
 ## Delivery
