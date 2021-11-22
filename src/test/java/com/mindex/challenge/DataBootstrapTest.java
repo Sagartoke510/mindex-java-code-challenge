@@ -36,7 +36,7 @@ public class DataBootstrapTest {
         
         ReportingStructure reportingStructure = new ReportingStructure(employee);
         assertNotNull(reportingStructure);
-        assertEquals(2,reportingStructure.getNumberOfReports());
+        assertEquals(4,reportingStructure.getNumberOfReports());
         
         Compensation compensation = compensationRepository.findByEmployee(employee);
         assertNotNull(compensation);
