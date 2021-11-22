@@ -22,7 +22,7 @@ public class ReportingStructureServiceImpl implements ReportingStructureService 
 	@Autowired
 	private EmployeeRepository employeeRepository;
 
-	
+
 	@Override
 	public ReportingStructure read(String id) {
 		LOG.debug("ReportingStructure for employeeId [{}]", id);
@@ -32,21 +32,27 @@ public class ReportingStructureServiceImpl implements ReportingStructureService 
 			throw new RuntimeException("Invalid EmployeeId: " +id);
 		}
 		ReportingStructure reportingStructure = new ReportingStructure(employee);
-
+		
+		reportingStructure.setNumberOfReports(calculateReportees(employee));
+		return reportingStructure;
+		
+	}
+	 public int calculateReportees(Employee employee) {
 		int reportsCount=0;
-		
 		List<Employee> directReportlist = employee.getDirectReports();
-		reportsCount = directReportlist.size();
-		
-		for(Employee curr : directReportlist) {
-			List<Employee> currEmpReports = curr.getDirectReports();
-			if(currEmpReports != null) {
-				reportsCount +=  curr.getDirectReports().size();
+		if(directReportlist != null) {
+			reportsCount += directReportlist.size();
+
+			for(Employee curr : directReportlist) {
+				Employee currEmpReports = employeeRepository.findByEmployeeId(curr.getEmployeeId());
+				if(currEmpReports != null) {
+					reportsCount += calculateReportees(currEmpReports);
+				}
 			}
 		}
-		reportingStructure.setNumberOfReports(reportsCount);
+		//reportingStructure.setNumberOfReports(reportsCount);
 
-		return reportingStructure ;
+		return reportsCount ;
 	}
 
 }
