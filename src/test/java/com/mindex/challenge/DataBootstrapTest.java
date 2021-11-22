@@ -1,7 +1,11 @@
 package com.mindex.challenge;
 
+import com.mindex.challenge.dao.CompensationRepository;
 import com.mindex.challenge.dao.EmployeeRepository;
+import com.mindex.challenge.data.Compensation;
 import com.mindex.challenge.data.Employee;
+import com.mindex.challenge.data.ReportingStructure;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +21,9 @@ public class DataBootstrapTest {
 
     @Autowired
     private EmployeeRepository employeeRepository;
+    
+    @Autowired 
+    private CompensationRepository compensationRepository;
 
     @Test
     public void test() {
@@ -26,5 +33,14 @@ public class DataBootstrapTest {
         assertEquals("Lennon", employee.getLastName());
         assertEquals("Development Manager", employee.getPosition());
         assertEquals("Engineering", employee.getDepartment());
+        
+        ReportingStructure reportingStructure = new ReportingStructure(employee);
+        assertNotNull(reportingStructure);
+        assertEquals(2,reportingStructure.getNumberOfReports());
+        
+        Compensation compensation = compensationRepository.findByEmployee(employee);
+        assertNotNull(compensation);
+        assertEquals(40000, compensation.getSalary());
+        assertEquals("11/22/2021", compensation.getEffectiveDate());
     }
 }
